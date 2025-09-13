@@ -4,8 +4,8 @@
   "version": "1.0",
   "manifest_version": 3,
   "action": {
-    "default_popup": "index.html",
-    "default_icon": "logo.png"
+    "default_popup": "popup/popup.html",
+    "default_icon": "imgs/logo.png"
   },
   "content_scripts": [
     {
