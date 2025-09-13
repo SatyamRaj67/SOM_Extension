@@ -3,6 +3,7 @@
 let cards
 
 function getProjectNames(cards) {
+    // I was trying to use forEach but it wasn't working
   for (let i = 0; i < cards.length; i++) {
     if (cards[i].href.includes("/projects/")) {
       let h2 = cards[i].querySelector("h2");
