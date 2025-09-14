@@ -1,19 +1,22 @@
 {
-  "name": "Hello Extensions of the world",
-  "description": "Base Level Extension",
+  "name": "Audio Player",
+  "description": "It can work I guess, Optional working",
   "version": "1.0",
+  "icons": {
+    "48": "imgs/logo.png"
+  },
   "manifest_version": 3,
   "action": {
     "default_popup": "popup/index.html",
     "default_icon": "imgs/logo.png"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background/script.js"
   },
   "content_scripts": [
     {
       "js": ["scripts/content.js"],
-      "matches": ["*://*/*"]
+      "matches": ["<all_urls>"]
     }
   ],
   "permissions": ["activeTab", "storage", "offscreen"]
