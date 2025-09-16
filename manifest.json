@@ -1,23 +1,23 @@
 {
-  "name": "Audio Player",
-  "description": "It can work I guess, Optional working",
+  "name": "Music Player",
+  "description": "A simple music player extension.",
   "version": "1.0",
   "icons": {
     "48": "imgs/logo.png"
   },
   "manifest_version": 3,
   "action": {
-    "default_popup": "popup/index.html",
+    "default_popup": "popup.html",
     "default_icon": "imgs/logo.png"
   },
   "background": {
-    "service_worker": "background/script.js"
+    "service_worker": "background.js"
   },
-  "content_scripts": [
+  "permissions": ["storage", "offscreen"],
+  "web_accessible_resources": [
     {
-      "js": ["scripts/content.js"],
+      "resources": ["music/1.mp3", "music/2.mp3", "music/3.mp3", "offscreen.html"],
       "matches": ["<all_urls>"]
     }
-  ],
-  "permissions": ["activeTab", "storage", "offscreen"]
+  ]
 }

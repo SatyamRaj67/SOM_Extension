@@ -1,0 +1,19 @@
+body {
+  width: 250px;
+  font-family: sans-serif;
+}
+
+.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+.song-info {
+  margin-bottom: 10px;
+}
+
+.controls button {
+  margin: 0 5px;
+}
