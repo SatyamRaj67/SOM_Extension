@@ -4,17 +4,17 @@ let isPlaying = false;
 
 const offscreenDocumentPath = 'offscreen.html';
 
-async function hasOffscreenDocument() {
-  const existingContexts = await chrome.runtime.getContexts({
-    contextTypes: ['OFFSCREEN_DOCUMENT']
-  });
-  return existingContexts.length > 0;
-}
+// async function hasOffscreenDocument() {
+//   const existingContexts = await chrome.runtime.getContexts({
+//     contextTypes: ['OFFSCREEN_DOCUMENT']
+//   });
+//   return existingContexts.length > 0;
+// }
 
 async function setupOffscreenDocument() {
-  if (await hasOffscreenDocument()) {
-    return;
-  }
+  // if (await hasOffscreenDocument()) {
+  //   return;
+  // }
   await chrome.offscreen.createDocument({
     url: offscreenDocumentPath,
     reasons: ['AUDIO_PLAYBACK'],

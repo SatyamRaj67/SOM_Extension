@@ -16,7 +16,7 @@
   "permissions": ["storage", "offscreen"],
   "web_accessible_resources": [
     {
-      "resources": ["music/1.mp3", "music/2.mp3", "music/3.mp3", "offscreen.html"],
+      "resources": ["offscreen.html"],
       "matches": ["<all_urls>"]
     }
   ]
