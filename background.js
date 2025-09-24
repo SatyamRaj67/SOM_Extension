@@ -101,6 +101,9 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
       });
       updatePopup();
       break;
+    case 'seek':
+      sendMessageToOffscreen({ action: 'seek', time: message.time });
+      break;
     case 'get-state':
       updatePopup();
       break;

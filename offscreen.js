@@ -1,5 +1,13 @@
 const audioPlayer = document.getElementById('audio-player');
 
+audioPlayer.addEventListener('timeupdate', () => {
+  chrome.runtime.sendMessage({
+    action: 'update-time',
+    currentTime: audioPlayer.currentTime,
+    duration: audioPlayer.duration
+  });
+});
+
 audioPlayer.addEventListener('ended', () => {
   chrome.runtime.sendMessage({ action: 'song-ended' });
 });
@@ -17,5 +25,7 @@ chrome.runtime.onMessage.addListener((message) => {
   } else if (message.action === 'play') {
     audioPlayer.src = chrome.runtime.getURL(message.song);
     audioPlayer.play();
+  } else if (message.action === 'seek') {
+    audioPlayer.currentTime = message.time;
   }
 });

@@ -26,6 +26,7 @@
             width="24px"
             fill="var(--fg)"
           >
+          
             <path
               d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"
             />
@@ -72,9 +73,14 @@
             />
           </svg>
         </button>
-        <span class="current-time">0:00</span>
-        <input type="range" />
-        <span class="song-length">2:37</span>
+          <span class="current-time">0:00</span>
+          <input
+            type="range"
+            min="0"
+            id="timeline"
+            value="0"
+          />
+          <span class="song-length">0:00</span>
         <button id="next-btn">
           <svg
             xmlns="http://www.w3.org/2000/svg"
