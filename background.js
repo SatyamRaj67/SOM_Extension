@@ -1,20 +1,31 @@
-const playlist = ['music/1.mp3', 'music/2.mp3', 'music/3.mp3'];
+let playlist = [];
 let currentSongIndex = 0;
 let isPlaying = false;
 
+// Fetch song data
+fetch('data.json')
+  .then((response) => response.json())
+  .then((data) => {
+    playlist = data.songs;
+  });
+
 const offscreenDocumentPath = 'offscreen.html';
 
-// async function hasOffscreenDocument() {
-//   const existingContexts = await chrome.runtime.getContexts({
-//     contextTypes: ['OFFSCREEN_DOCUMENT']
-//   });
-//   return existingContexts.length > 0;
-// }
+// ========================
+//  ===         Basic Functions           ===
+// ========================
+async function hasOffscreenDocument() {
+  const existingContexts = await chrome.runtime.getContexts({
+    contextTypes: ['OFFSCREEN_DOCUMENT']
+  });
+  return existingContexts.length > 0;
+}
 
 async function setupOffscreenDocument() {
-  // if (await hasOffscreenDocument()) {
-  //   return;
-  // }
+  if (await hasOffscreenDocument()) {
+    return;
+  }
+
   await chrome.offscreen.createDocument({
     url: offscreenDocumentPath,
     reasons: ['AUDIO_PLAYBACK'],
@@ -22,14 +33,19 @@ async function setupOffscreenDocument() {
   });
 }
 
+
+// ========================
+//  ===      Message Handling        ===
+// ========================
 function sendMessageToOffscreen(message) {
   chrome.runtime.sendMessage(message);
 }
 
 function updatePopup() {
+  if (playlist.length === 0) return;
   chrome.runtime.sendMessage({
     action: 'update-ui',
-    song: playlist[currentSongIndex].replace('music/', ''),
+    song: playlist[currentSongIndex],
     isPlaying: isPlaying
   });
 }
@@ -46,7 +62,7 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 
       sendMessageToOffscreen({
         action: 'play-pause',
-        song: playlist[currentSongIndex],
+        song: playlist[currentSongIndex].music,
         isPlaying: isPlaying
       });
 
@@ -62,7 +78,7 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 
       sendMessageToOffscreen({
         action: 'play',
-        song: playlist[currentSongIndex]
+        song: playlist[currentSongIndex].music
       });
       
       updatePopup();
@@ -72,7 +88,16 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
       isPlaying = true;
       sendMessageToOffscreen({
         action: 'play',
-        song: playlist[currentSongIndex]
+        song: playlist[currentSongIndex].music
+      });
+      updatePopup();
+      break;
+    case 'song-ended':
+      currentSongIndex = (currentSongIndex + 1) % playlist.length;
+      isPlaying = true;
+      sendMessageToOffscreen({
+        action: 'play',
+        song: playlist[currentSongIndex].music
       });
       updatePopup();
       break;

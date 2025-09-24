@@ -1,5 +1,9 @@
 const audioPlayer = document.getElementById('audio-player');
 
+audioPlayer.addEventListener('ended', () => {
+  chrome.runtime.sendMessage({ action: 'song-ended' });
+});
+
 chrome.runtime.onMessage.addListener((message) => {
   if (message.action === 'play-pause') {
     if (message.isPlaying) {

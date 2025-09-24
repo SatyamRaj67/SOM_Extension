@@ -1,0 +1,22 @@
+{
+    "songs": [
+        {
+            "title": "Song 1 Title",
+            "artists": ["Artist 1", "Artist 2"],
+            "cover_img": "imgs/song-1.jpg",
+            "music": "music/1.mp3"
+        },
+        {
+            "title": "Song 2 Title",
+            "artists": ["Artist Alpha", "Artist Beta"],
+            "cover_img": "imgs/song-2.jpg",
+            "music": "music/2.mp3"
+        },
+        {
+            "title": "Song 3 Title",
+            "artists": ["Artist A", "Artist B"],
+            "cover_img": "imgs/song-3.jpg",
+            "music": "music/3.mp3"
+        }
+    ]
+}
