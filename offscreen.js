@@ -1,19 +1,19 @@
-const audioPlayer = document.getElementById("audio-player");
+const audioPlayer = document.getElementById('audio-player');
 
-audioPlayer.addEventListener("timeupdate", () => {
+audioPlayer.addEventListener('timeupdate', () => {
   chrome.runtime.sendMessage({
-    action: "update-time",
+    action: 'update-time',
     currentTime: audioPlayer.currentTime,
-    duration: audioPlayer.duration,
+    duration: audioPlayer.duration
   });
 });
 
-audioPlayer.addEventListener("ended", () => {
-  chrome.runtime.sendMessage({ action: "song-ended" });
+audioPlayer.addEventListener('ended', () => {
+  chrome.runtime.sendMessage({ action: 'song-ended' });
 });
 
 chrome.runtime.onMessage.addListener((message) => {
-  if (message.action === "play-pause") {
+  if (message.action === 'play-pause') {
     if (message.isPlaying) {
       if (audioPlayer.src !== chrome.runtime.getURL(message.song)) {
         audioPlayer.src = chrome.runtime.getURL(message.song);
@@ -22,10 +22,10 @@ chrome.runtime.onMessage.addListener((message) => {
     } else {
       audioPlayer.pause();
     }
-  } else if (message.action === "play") {
+  } else if (message.action === 'play') {
     audioPlayer.src = chrome.runtime.getURL(message.song);
     audioPlayer.play();
-  } else if (message.action === "seek") {
+  } else if (message.action === 'seek') {
     audioPlayer.currentTime = message.time;
   }
 });

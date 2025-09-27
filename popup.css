@@ -207,42 +207,9 @@ p {
   border-radius: 50%;
   background: var(--accent);
   box-shadow: -407px 0 0 400px color-mix(in oklch, var(--accent), var(--fg) 10%);
-  cursor: grab;
-  transition: all 0.5s ease;
+  cursor: pointer;
 }
 
 #timeline::-webkit-slider-thumb:hover {
-  transform: scale(1.5);
-}
-
-/* === Navbar === */
-nav {
-  position: relative;
-  width: 100%;
-  height: 3em;
-  background: color-mix(in oklch, var(--accent), #000 30%);
-  transition-delay: 0.75s;
-}
-
-nav ul {
-  width: 100%;
-  height: 100%;
-  list-style: none;
-  display: flex;
-}
-
-nav ul li {
-  flex: 1;
-}
-
-nav ul li button {
-  background: color-mix(in oklch, var(--accent), #000 30%);
-  width: 100%;
-  height: 100%;
-  border: none;
-  transition-delay: 0.9s;
-}
-
-nav ul li:hover button svg{
   transform: scale(1.5);
 }
