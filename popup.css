@@ -20,9 +20,8 @@
 }
 
 body {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
+  width: 320px;
+  height: 100vh;
   justify-content: center;
   align-items: center;
   background: var(--fg);
@@ -40,7 +39,7 @@ p {
 
 .container {
   width: 320px;
-  min-height: 400px;
+  height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -48,12 +47,17 @@ p {
 
   background: var(--accent);
   border: 2px solid var(--fg);
+  border-bottom: 0;
   border-radius: 1em;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+
   z-index: 0;
 }
 
 .imgBx {
   width: 100%;
+  height: 100%;
   display: flex;
   position: relative;
   justify-content: center;
@@ -72,6 +76,27 @@ p {
   z-index: -3;
   transition: all 0.5s ease;
   transition-delay: 1s;
+  animation: move 1s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.imgBx:has(input[type="checkbox"]:checked)::before {
+  animation-play-state: running;
+}
+
+@keyframes move {
+  0% {
+    transform: translateY(0) scale(1, 1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.1, 0.9);
+  }
+  75% {
+    transform: translateY(5px) scale(0.95, 1.05);
+  }
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
 }
 
 .imgBx::after {
@@ -84,6 +109,12 @@ p {
   z-index: -2;
   transition: all 0.5s ease;
   transition-delay: 0.5s;
+  animation: move 1s ease-in-out infinite;
+  animation-delay: -0.5s;
+  animation-play-state: paused;
+}
+.imgBx:has(input[type="checkbox"]:checked)::after {
+  animation-play-state: running;
 }
 
 .imgBx label,
@@ -96,6 +127,7 @@ p {
   justify-content: center;
   align-items: center;
   background: var(--bg);
+  z-index: 4;
 }
 
 .imgBx .unchecked {
@@ -106,33 +138,54 @@ p {
   display: none;
 }
 
-.imgBx input[type="checkbox"] {
+input#play-pause-btn[type="checkbox"] {
   cursor: pointer;
   opacity: 0;
   z-index: 200;
 }
 
-.imgBx input[type="checkbox"]:checked + label .unchecked {
-  display: none;
-}
-
-.imgBx input[type="checkbox"]:checked + label .checked {
+body:not(:has(input#play-pause-btn[type="checkbox"]:checked)) .unchecked {
   display: inline;
 }
 
-.imgBx input[type="checkbox"]:checked ~ img {
+body:not(:has(input#play-pause-btn[type="checkbox"]:checked)) .checked {
+  display: none;
+}
+
+body:has(input#play-pause-btn[type="checkbox"]:checked) .unchecked {
+  display: none;
+}
+
+body:has(input#play-pause-btn[type="checkbox"]:checked) .checked {
+  display: inline;
+}
+
+body:has(input#play-pause-btn[type="checkbox"]:checked) img#song-img {
   animation-play-state: running;
 }
 
-.imgBx img {
-  z-index: -1;
-  position: relative;
-  width: 100%;
-  height: 100%;
+img#song-img {
+  z-index: 1;
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-self: center;
+  top: 100px;
   object-fit: cover;
   border-radius: 50%;
   animation: rotate 15s linear infinite;
   animation-play-state: paused;
+  transition: all 0.5s ease;
+}
+
+.active img#song-img {
+  top: unset;
+  left: 10px;
+  bottom: 40px;
+  width: 100px;
+  height: 100px;
+  border: 15px solid color-mix(in oklch, var(--accent), #000 15%);
 }
 
 @keyframes rotate {
@@ -154,7 +207,8 @@ p {
   transition-delay: 0.5s;
 }
 
-.controls button {
+.controls button,
+.controls label {
   background: color-mix(in oklch, var(--accent), #000 20%);
   color: var(--fg);
   border: 2px solid var(--fg);
@@ -167,8 +221,20 @@ p {
   transform: scale(1.5);
 }
 
+.controls label {
+  display: none;
+}
+
 .controls svg {
   fill: var(--fg);
+}
+
+.active .controls .space {
+  width: 60px;
+}
+
+.active .controls label {
+  display: inline;
 }
 
 .song-info {
@@ -212,4 +278,42 @@ p {
 
 #timeline::-webkit-slider-thumb:hover {
   transform: scale(1.5);
+}
+
+.active #timeline,
+.active span {
+  display: none;
+}
+
+.navbar {
+  width: 100%;
+  height: 40px;
+  display: flex;
+}
+
+.navbar button {
+  flex: 1;
+  background: color-mix(in oklch, var(--accent), #000 20%);
+  color: var(--fg);
+  cursor: pointer;
+  font-size: 1em;
+  border: none;
+  border-top: 2px solid var(--fg);
+
+  &:first-child {
+    border-right: 1px solid var(--fg);
+  }
+
+  &:last-child {
+    border-left: 1px solid var(--fg);
+  }
+
+  &:hover {
+    background: color-mix(in oklch, var(--accent), #000 30%);
+    font-weight: bold;
+  }
+
+  &:hover svg {
+    scale: 1.5;
+  }
 }
