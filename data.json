@@ -1,32 +1,32 @@
 {
   "songs": [
     {
-      "title": "Song 1 Title",
-      "artists": ["Artist 1", "Artist 2"],
-      "cover_img": "imgs/song-1.jpg",
-      "music": "music/1.mp3",
-      "accent_color": "#FF4081"
-    },
-    {
-      "title": "Song 2 Title",
-      "artists": ["Artist Alpha", "Artist Beta"],
-      "cover_img": "imgs/song-2.jpg",
-      "music": "music/2.mp3",
-      "accent_color": "#FF5733"
-    },
-    {
-      "title": "Song 3 Title",
-      "artists": ["Artist A", "Artist B"],
-      "cover_img": "imgs/song-3.jpg",
-      "music": "music/3.mp3",
-      "accent_color": "#1DB954"
-    },
-    {
       "title": "Fireworks",
-      "artists": ["@Hannah", "Satyam Raj"],
+      "artists": ["@Hannah"],
       "cover_img": "imgs/fireworks.png",
       "music": "music/fireworks.mp3",
       "accent_color": "#282f75"
+    },
+    {
+      "title": "River Flows in You",
+      "artists": ["@One For Freedom"],
+      "cover_img": "imgs/River_Flows.jpeg",
+      "music": "music/River_Flows.mp3",
+      "accent_color": "#41403e"
+    },
+    {
+      "title": "NEVER FORGETTING",
+      "artists": ["@Youssef", "@Pankun"],
+      "cover_img": "imgs/youssef.png",
+      "music": "music/Never_Forgetting.mp3",
+      "accent_color": "#190b2f"
+    },
+    {
+      "title": "Overtale_Finale",
+      "artists": ["@JustZVan"],
+      "cover_img": "imgs/undertale.jpg",
+      "music": "music/Finale.mp3",
+      "accent_color": "#111"
     }
   ]
 }
