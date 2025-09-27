@@ -3,20 +3,20 @@ let currentSongIndex = 0;
 let isPlaying = false;
 
 // Fetch song data
-fetch('data.json')
+fetch("data.json")
   .then((response) => response.json())
   .then((data) => {
     playlist = data.songs;
   });
 
-const offscreenDocumentPath = 'offscreen.html';
+const offscreenDocumentPath = "offscreen.html";
 
 // ========================
 //  ===         Basic Functions           ===
 // ========================
 async function hasOffscreenDocument() {
   const existingContexts = await chrome.runtime.getContexts({
-    contextTypes: ['OFFSCREEN_DOCUMENT']
+    contextTypes: ["OFFSCREEN_DOCUMENT"],
   });
   return existingContexts.length > 0;
 }
@@ -28,11 +28,10 @@ async function setupOffscreenDocument() {
 
   await chrome.offscreen.createDocument({
     url: offscreenDocumentPath,
-    reasons: ['AUDIO_PLAYBACK'],
-    justification: 'To play audio in the background'
+    reasons: ["AUDIO_PLAYBACK"],
+    justification: "To play audio in the background",
   });
 }
-
 
 // ========================
 //  ===      Message Handling        ===
@@ -44,9 +43,9 @@ function sendMessageToOffscreen(message) {
 function updatePopup() {
   if (playlist.length === 0) return;
   chrome.runtime.sendMessage({
-    action: 'update-ui',
+    action: "update-ui",
     song: playlist[currentSongIndex],
-    isPlaying: isPlaying
+    isPlaying: isPlaying,
   });
 }
 
@@ -56,55 +55,80 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   await setupOffscreenDocument();
 
   switch (message.action) {
-    case 'play-pause':
-
+    case "play-pause":
       isPlaying = !isPlaying;
 
       sendMessageToOffscreen({
-        action: 'play-pause',
+        action: "play-pause",
         song: playlist[currentSongIndex].music,
-        isPlaying: isPlaying
+        isPlaying: isPlaying,
       });
 
       updatePopup();
 
       break;
 
-    case 'prev':
+    case "play-index":
+      currentSongIndex = message.index;
 
-      currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+      console.log("Playing index:", currentSongIndex);
+
+      isPlaying = true;
+      sendMessageToOffscreen({
+        action: "play",
+        song: playlist[currentSongIndex].music,
+      });
+
+      updatePopup();
+      break;
+
+    case "prev":
+      currentSongIndex =
+        (currentSongIndex - 1 + playlist.length) % playlist.length;
 
       isPlaying = true;
 
       sendMessageToOffscreen({
-        action: 'play',
-        song: playlist[currentSongIndex].music
+        action: "play",
+        song: playlist[currentSongIndex].music,
       });
-      
+
       updatePopup();
       break;
-    case 'next':
+
+    case "next":
       currentSongIndex = (currentSongIndex + 1) % playlist.length;
       isPlaying = true;
       sendMessageToOffscreen({
-        action: 'play',
-        song: playlist[currentSongIndex].music
+        action: "play",
+        song: playlist[currentSongIndex].music,
       });
       updatePopup();
       break;
-    case 'song-ended':
+
+    case "play-song":
+      currentSongIndex = message.index;
+      isPlaying = true;
+      sendMessageToOffscreen({
+        action: "play",
+        song: playlist[currentSongIndex].music,
+      });
+      updatePopup();
+      break;
+
+    case "song-ended":
       currentSongIndex = (currentSongIndex + 1) % playlist.length;
       isPlaying = true;
       sendMessageToOffscreen({
-        action: 'play',
-        song: playlist[currentSongIndex].music
+        action: "play",
+        song: playlist[currentSongIndex].music,
       });
       updatePopup();
       break;
-    case 'seek':
-      sendMessageToOffscreen({ action: 'seek', time: message.time });
+    case "seek":
+      sendMessageToOffscreen({ action: "seek", time: message.time });
       break;
-    case 'get-state':
+    case "get-state":
       updatePopup();
       break;
   }

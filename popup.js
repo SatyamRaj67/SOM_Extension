@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("data.json")
       .then((response) => response.json())
       .then((data) => {
-        data.songs.forEach((song) => {
+        data.songs.forEach((song, index) => {
           const songItem = document.createElement("div");
           songItem.classList.add("playlist-item");
           songItem.innerHTML = `
@@ -52,6 +52,10 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           `;
           playlistContainer.appendChild(songItem);
+          
+          songItem.addEventListener("click", () => {
+            chrome.runtime.sendMessage({ action: "play-index", index: index });
+          });
         });
       })
       .catch((error) => console.error("Error loading playlist:", error));
