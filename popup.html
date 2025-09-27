@@ -9,58 +9,82 @@
     />
   </head>
   <body class="dark">
-    <img
-      id="song-img"
-      src="imgs/song-1.jpg"
-      alt="Song 1"
-    />
     <div class="container">
-      <h1>Music Player</h1>
-      <p>Control your music playback from here</p>
-      <div class="imgBx">
-        <input
-          type="checkbox"
-          id="play-pause-btn"
-        />
-        <label for="play-pause-btn">
-          <svg
-            class="unchecked"
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 -960 960 960"
-            width="24px"
-            fill="var(--fg)"
-          >
-            <path
-              d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"
+      <div class="wrapper">
+        <div class="tab">
+          <h1>Music Player</h1>
+          <p>Control your music playback from here</p>
+          <div class="imgBx">
+            <img
+              id="song-img"
+              src="imgs/song-1.jpg"
+              alt="Song 1"
             />
-          </svg>
-
-          <svg
-            class="checked"
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 -960 960 960"
-            width="24px"
-            fill="var(--fg)"
-          >
-            <path
-              d="M520-200v-560h240v560H520Zm-320 0v-560h240v560H200Zm400-80h80v-400h-80v400Zm-320 0h80v-400h-80v400Zm0-400v400-400Zm320 0v400-400Z"
+            <input
+              type="checkbox"
+              id="play-pause-btn"
             />
-          </svg>
-        </label>
-      </div>
+            <label for="play-pause-btn">
+              <svg
+                class="unchecked"
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="var(--fg)"
+              >
+                <path
+                  d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"
+                />
+              </svg>
 
-      <!-- === Song Info === -->
-      <div class="song-info">
-        <h2 id="song-title">Song Title</h2>
-        <p id="song-artist">Artist Name</p>
+              <svg
+                class="checked"
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="var(--fg)"
+              >
+                <path
+                  d="M520-200v-560h240v560H520Zm-320 0v-560h240v560H200Zm400-80h80v-400h-80v400Zm-320 0h80v-400h-80v400Zm0-400v400-400Zm320 0v400-400Z"
+                />
+              </svg>
+            </label>
+          </div>
+
+          <!-- === Song Info === -->
+          <div class="song-info">
+            <h2 id="song-title">Song Title</h2>
+            <p id="song-artist">Artist Name</p>
+          </div>
+        </div>
+
+        <div class="tab">
+          <h1>Playlist</h1>
+          <div class="playlist" id="playlist-container">
+            <!-- Playlist items will be injected here by JavaScript -->
+          </div>
+        </div>
+
+        <div class="tab">
+          <h1>Favourites</h1>
+          <div class="favourites" id="favourites-container">
+            <!-- Favourite songs will be injected here by JavaScript -->
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- === Controls === -->
     <div class="controls">
-      <div class="space"></div>
+      <div class="space">
+        <img
+          id="controls-song-img"
+          src="imgs/song-1.jpg"
+          alt="Song 1"
+        />
+      </div>
       <button id="prev-btn">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +109,7 @@
 
       <label for="play-pause-btn">
         <svg
-          class="checked"
+          class="unchecked"
           xmlns="http://www.w3.org/2000/svg"
           height="24px"
           viewBox="0 -960 960 960"
@@ -98,7 +122,7 @@
         </svg>
 
         <svg
-          class="unchecked"
+          class="checked"
           xmlns="http://www.w3.org/2000/svg"
           height="24px"
           viewBox="0 -960 960 960"
@@ -128,7 +152,7 @@
 
     <!-- Navbar -->
     <nav class="navbar">
-      <button>
+      <button id="player-tab-btn">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24px"
@@ -142,7 +166,7 @@
         </svg>
       </button>
 
-      <button>
+      <button id="playlist-tab-btn">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24px"
@@ -155,7 +179,7 @@
           />
         </svg>
       </button>
-      <button id="toggle-view-btn">
+      <button id="favourites-view-btn">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24px"
