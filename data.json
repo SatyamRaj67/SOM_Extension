@@ -27,6 +27,13 @@
       "cover_img": "imgs/undertale.jpg",
       "music": "music/Finale.mp3",
       "accent_color": "#111"
+    },
+    {
+      "title": "SPLAT",
+      "artists": ["@Gizzy"],
+      "cover_img": "imgs/splat.jpg",
+      "music": "music/Finale.mp3",
+      "accent_color": "#e590ee"
     }
   ]
 }

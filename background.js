@@ -68,20 +68,6 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 
       break;
 
-    case "play-index":
-      currentSongIndex = message.index;
-
-      console.log("Playing index:", currentSongIndex);
-
-      isPlaying = true;
-      sendMessageToOffscreen({
-        action: "play",
-        song: playlist[currentSongIndex].music,
-      });
-
-      updatePopup();
-      break;
-
     case "prev":
       currentSongIndex =
         (currentSongIndex - 1 + playlist.length) % playlist.length;
