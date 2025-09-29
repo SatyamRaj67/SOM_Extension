@@ -406,17 +406,22 @@ img#song-img {
   height: 16px;
   transform: rotate(-90deg) translateX(50%) translateY(550%);
   transform-origin: center;
-  display: none;
+  display: flex;
   border: 2px solid var(--fg);
   align-items: center;
   justify-content: center;
   z-index: 10000;
   background: var(--fg);
   border-radius: 1em;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
 }
 
 .volume-control.active .volume-slider-container {
-  display: flex;
+  opacity: 1;
+  visibility: visible;
+  transform: rotate(-90deg) translateX(50%) translateY(550%);
 }
 
 .volume-control #volume-slider {
