@@ -1,6 +1,7 @@
 let playlist = [];
 let currentSongIndex = 0;
 let isPlaying = false;
+let currentVolume = 1;
 
 // Fetch song data
 fetch("data.json")
@@ -46,6 +47,10 @@ function updatePopup() {
     action: "update-ui",
     song: playlist[currentSongIndex],
     isPlaying: isPlaying,
+  });
+  chrome.runtime.sendMessage({
+    action: "update-volume",
+    volume: currentVolume,
   });
 }
 
@@ -113,6 +118,10 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
       break;
     case "seek":
       sendMessageToOffscreen({ action: "seek", time: message.time });
+      break;
+    case "set-volume":
+      currentVolume = message.volume;
+      sendMessageToOffscreen({ action: "set-volume", volume: currentVolume });
       break;
     case "get-state":
       updatePopup();

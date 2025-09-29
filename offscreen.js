@@ -27,5 +27,7 @@ chrome.runtime.onMessage.addListener((message) => {
     audioPlayer.play();
   } else if (message.action === 'seek') {
     audioPlayer.currentTime = message.time;
+  } else if (message.action === 'set-volume') {
+    audioPlayer.volume = message.volume;
   }
 });
