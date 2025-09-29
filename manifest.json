@@ -13,7 +13,27 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["storage", "offscreen"],
+  "permissions": ["storage", "offscreen", "commands"],
+  "commands": {
+    "toggle-play-pause": {
+      "suggested_key": {
+        "default": "MediaPlayPause"
+      },
+      "description": "Toggle play/pause"
+    },
+    "next-track": {
+      "suggested_key": {
+        "default": "MediaNextTrack"
+      },
+      "description": "Next track"
+    },
+    "previous-track": {
+      "suggested_key": {
+        "default": "MediaPrevTrack"
+      },
+      "description": "Previous track"
+    }
+  },
   "web_accessible_resources": [
     {
       "resources": ["offscreen.html"],
