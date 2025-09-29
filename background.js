@@ -54,36 +54,6 @@ function updatePopup() {
   });
 }
 
-function handlePlayPause() {
-  isPlaying = !isPlaying;
-  sendMessageToOffscreen({
-    action: "play-pause",
-    song: playlist[currentSongIndex].music,
-    isPlaying: isPlaying,
-  });
-  updatePopup();
-}
-
-function handleNext() {
-  currentSongIndex = (currentSongIndex + 1) % playlist.length;
-  isPlaying = true;
-  sendMessageToOffscreen({
-    action: "play",
-    song: playlist[currentSongIndex].music,
-  });
-  updatePopup();
-}
-
-function handlePrev() {
-  currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
-  isPlaying = true;
-  sendMessageToOffscreen({
-    action: "play",
-    song: playlist[currentSongIndex].music,
-  });
-  updatePopup();
-}
-
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   if (sender.id !== chrome.runtime.id) return;
 
@@ -91,15 +61,40 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 
   switch (message.action) {
     case "play-pause":
-      handlePlayPause();
+      isPlaying = !isPlaying;
+
+      sendMessageToOffscreen({
+        action: "play-pause",
+        song: playlist[currentSongIndex].music,
+        isPlaying: isPlaying,
+      });
+
+      updatePopup();
+
       break;
 
     case "prev":
-      handlePrev();
+      currentSongIndex =
+        (currentSongIndex - 1 + playlist.length) % playlist.length;
+
+      isPlaying = true;
+
+      sendMessageToOffscreen({
+        action: "play",
+        song: playlist[currentSongIndex].music,
+      });
+
+      updatePopup();
       break;
 
     case "next":
-      handleNext();
+      currentSongIndex = (currentSongIndex + 1) % playlist.length;
+      isPlaying = true;
+      sendMessageToOffscreen({
+        action: "play",
+        song: playlist[currentSongIndex].music,
+      });
+      updatePopup();
       break;
 
     case "play-song":
@@ -113,7 +108,13 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
       break;
 
     case "song-ended":
-      handleNext();
+      currentSongIndex = (currentSongIndex + 1) % playlist.length;
+      isPlaying = true;
+      sendMessageToOffscreen({
+        action: "play",
+        song: playlist[currentSongIndex].music,
+      });
+      updatePopup();
       break;
     case "seek":
       sendMessageToOffscreen({ action: "seek", time: message.time });
@@ -124,22 +125,6 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
       break;
     case "get-state":
       updatePopup();
-      break;
-  }
-});
-
-chrome.commands.onCommand.addListener(async (command) => {
-  await setupOffscreenDocument();
-
-  switch (command) {
-    case "toggle-play-pause":
-      handlePlayPause();
-      break;
-    case "next-track":
-      handleNext();
-      break;
-    case "previous-track":
-      handlePrev();
       break;
   }
 });
