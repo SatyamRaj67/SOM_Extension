@@ -534,4 +534,11 @@ img#song-img {
   &:hover svg {
     scale: 1.5;
   }
+
+  &.current svg{
+    background: var(--fg);
+    fill: var(--accent);
+    border-radius: 50%;
+    border: 0.2em solid var(--fg);
+  }
 }
