@@ -14,14 +14,17 @@ I am Satyam Raj, A solo indie web dev. I have made powerful UI. Be sure to check
 
 This is a really customizable project and uses advanced CSS tooltips that I have learnt over the years. From using oklsch for colours, to assigning root variables and intermixing colours and much more. Easily integratable, and FAST AS F. 
 
-Like, who uses React. 
-Basically the internet, SIR 
+Satyam: Like, who uses React. 
 
-BUT APART FROM THE WHOLE WORLD WHO USES IT? 
-Aliens too use them, SIR
+ANONYMOUS HELPER: Basically the internet, SIR 
 
-GOSH, STOP, WHAT SORT OF HELPER ARE YOU.
-Alien, SIR 👽
+Satyam: BUT APART FROM THE WHOLE WORLD WHO USES IT? 
+
+ANONYMOUS HELPER: Aliens too use them, SIR
+
+SATYAM: GOSH, STOP, WHAT SORT OF HELPER ARE YOU.
+
+ANANONYMOUS HELPER: Alien, SIR 👽
 
 <img width="323" height="487" alt="Screenshot 2025-09-29 212253" src="https://github.com/user-attachments/assets/2b3dc714-0a29-461d-b34c-f43b8f168e19" />
 <img width="321" height="485" alt="Screenshot 2025-09-29 212120" src="https://github.com/user-attachments/assets/addc8bfe-977b-4fa7-be77-0b2ec2d30bb8" />
