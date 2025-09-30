@@ -54,6 +54,9 @@ function updatePopup() {
   });
 }
 
+// =======================
+// ===   Main Message Listener   ===
+// =======================
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   if (sender.id !== chrome.runtime.id) return;
 

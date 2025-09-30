@@ -9,9 +9,13 @@
     />
   </head>
   <body class="dark">
+    <!-- === Border Canvas Visualizer === -->
     <canvas id="visualizer-canvas"></canvas>
+
     <div class="container">
       <div class="wrapper">
+        <!-- === Tab 1: Music Player === -->
+
         <div class="tab">
           <h1>Music Player</h1>
           <p>Control your music playback from here</p>
@@ -63,6 +67,7 @@
             <div class="volume-control">
               <button id="volume-btn">
                 <svg
+                  class="volume-icon"
                   xmlns="http://www.w3.org/2000/svg"
                   height="24px"
                   viewBox="0 -960 960 960"
@@ -88,6 +93,8 @@
           </div>
         </div>
 
+        <!-- === Tab 2: Playlists === -->
+
         <div class="tab">
           <h1>Playlist</h1>
           <div
@@ -98,6 +105,8 @@
           </div>
         </div>
 
+        <!-- === Tab 3: About Section  === -->
+
         <div class="tab">
           <h1>About</h1>
           <div
@@ -106,27 +115,30 @@
           >
             <div class="about-section">
               <h2>Satyam Raj</h2>
+              <hr />
               <p>
                 I am a small indie developer, passionate about creating new
                 stuff, and enthusiastic about learning new technologies.
               </p>
-              <p>
+              <div class="links">
                 <a
                   href="https://satyamraj67.github.io/HTML-Projects"
                   target="_blank"
-                  >Portfolio</a
                 >
-                |
+                  Portfolio
+                </a>
                 <a
                   href="https://github.com/SatyamRaj67/"
                   target="_blank"
-                  >GitHub</a
                 >
-              </p>
+                  GitHub
+                </a>
+              </div>
             </div>
 
             <div class="about-section">
-              <h3>Project Dedication</h3>
+              <h2>Project Dedication</h2>
+              <hr />
               <p>
                 This project is a dedication toward HackClub and their YSWS
                 Event called
@@ -136,6 +148,7 @@
                   >Carnival</a
                 >.
               </p>
+              <br />
               <p>
                 Please support and donate to
                 <a
@@ -153,11 +166,13 @@
     <!-- === Controls === -->
     <div class="controls">
       <div class="space">
-        <img
-          id="controls-song-img"
-          src="imgs/song-1.jpg"
-          alt="Song 1"
-        />
+        <div class="imgBx">
+          <img
+            id="controls-song-img"
+            src="imgs/song-1.jpg"
+            alt="Song 1"
+          />
+        </div>
       </div>
       <button id="prev-btn">
         <svg
@@ -172,6 +187,8 @@
           />
         </svg>
       </button>
+
+      <!-- The Timeline with the time, rendering of number is done by js -->
       <span class="current-time">0:00</span>
       <input
         type="range"

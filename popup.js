@@ -1,6 +1,7 @@
 // =========================
-// ===       VISUALIZER & UI LOGIC          ===
+// ===    VISUALIZER & UI LOGIC     ===
 // =========================
+
 document.addEventListener("DOMContentLoaded", () => {
   // --- Visualizer Setup ---
   const canvas = document.getElementById("visualizer-canvas");
@@ -18,19 +19,17 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   class Bar {
-    constructor(x, y, width, height, isVertical = false) {
+    constructor(x, y, width, height) {
       this.x = x;
       this.y = y;
       this.width = width;
       this.height = height;
-      this.isVertical = isVertical;
       this.currentSize = config.minHeight;
       this.targetSize = this.currentSize;
       this.speed = Math.random() * 1.5 + 0.5;
     }
 
     update() {
-      // If animating, set a new random target. If not, target minimum height.
       if (isVisualizerAnimating) {
         if (Math.abs(this.targetSize - this.currentSize) < 1) {
           this.targetSize =
@@ -46,17 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     draw() {
       ctx.fillStyle = config.color;
-      if (this.isVertical) {
-        ctx.fillRect(this.x, this.y, this.currentSize, this.height);
-      } else {
-        ctx.fillRect(this.x, this.y, this.width, this.currentSize);
-      }
+      ctx.fillRect(this.x, this.y, this.currentSize, this.height);
     }
   }
 
   function initVisualizer() {
-    canvas.width = 320; // Match body width
-    canvas.height = 500; // Match total height
+    canvas.width = 320;
+    canvas.height = 500;
     bars = [];
     const totalBarSpace = config.barWidth + config.gap;
 
@@ -90,7 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Continue animating if the visualizer is active or if bars haven't settled.
     if (isVisualizerAnimating || !allBarsAtMin) {
       animationFrameId = requestAnimationFrame(animateVisualizer);
     }
@@ -99,20 +93,21 @@ document.addEventListener("DOMContentLoaded", () => {
   function startVisualizer() {
     if (isVisualizerAnimating) return;
     isVisualizerAnimating = true;
-    // Cancel any previous frame to avoid multiple loops
     cancelAnimationFrame(animationFrameId);
     animateVisualizer();
   }
 
   function stopVisualizer() {
     isVisualizerAnimating = false;
-    // The animation loop will now see the flag is false and animate bars to minHeight.
   }
 
   initVisualizer();
+
   window.addEventListener("resize", initVisualizer);
 
-  // --- UI Logic ---
+  // ========================
+  // ===           UI ELEMENTS            ===
+  // ========================
   const aboutViewBtn = document.getElementById("about-view-btn");
   const playerTabBtn = document.getElementById("player-tab-btn");
   const playlistTabBtn = document.getElementById("playlist-tab-btn");
@@ -141,7 +136,9 @@ document.addEventListener("DOMContentLoaded", () => {
     playerTabBtn.classList.add("current");
   }
 
-  // --- Playlist Loading ---
+  // =====================
+  // ===      Playlist Loading      ===
+  // =====================
   const playlistContainer = document.getElementById("playlist-container");
   if (playlistContainer) {
     fetch("data.json")
@@ -151,12 +148,10 @@ document.addEventListener("DOMContentLoaded", () => {
           const songItem = document.createElement("div");
           songItem.classList.add("playlist-item");
           songItem.innerHTML = `
-            <img src="${song.cover_img}" alt="${
-            song.title
-          }" class="playlist-item-img">
-            <div class="playlist-item-info">
-              <p class="playlist-item-title">${song.title}</p>
-              <p class="playlist-item-artist">${song.artists.join(", ")}</p>
+            <img src="${song.cover_img}" alt="${song.title}">
+            <div >
+              <h3 >${song.title}</h3>
+              <p>${song.artists.join(", ")}</p>
             </div>
           `;
           playlistContainer.appendChild(songItem);
@@ -168,7 +163,9 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch((error) => console.error("Error loading playlist:", error));
   }
 
-  // --- Music Player Logic & Event Listeners ---
+  // ========================
+  // ===          Player Controls           ===
+  // ========================
   const playPauseBtn = document.getElementById("play-pause-btn");
   const prevBtn = document.getElementById("prev-btn");
   const nextBtn = document.getElementById("next-btn");
@@ -188,7 +185,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   volumeSlider.addEventListener("input", () => {
-    chrome.runtime.sendMessage({ action: "set-volume", volume: volumeSlider.value });
+    chrome.runtime.sendMessage({
+      action: "set-volume",
+      volume: volumeSlider.value,
+    });
   });
 
   volumeSlider.addEventListener("change", () => {
@@ -211,40 +211,55 @@ document.addEventListener("DOMContentLoaded", () => {
     chrome.runtime.sendMessage({ action: "seek", time: timeline.value });
   });
 
-  chrome.runtime.onMessage.addListener((message) => {
-    if (message.action === "update-ui") {
-      const { song, isPlaying } = message;
-      songImg.src = song.cover_img;
-      controlsSongImg.src = song.cover_img;
-      songTitle.textContent = song.title;
-      songArtist.textContent = song.artists.join(", ");
-      playPauseBtn.checked = isPlaying;
-      document.documentElement.style.setProperty("--accent", song.accent_color);
+  // ========================
+  // ===        Message Listener         ===
+  // ========================
 
-      // Control visualizer based on playback state
-      if (isPlaying) {
-        startVisualizer();
-      } else {
-        stopVisualizer();
-      }
-    } else if (message.action === "update-time") {
-      const { currentTime, duration } = message;
-      timeline.max = duration;
-      timeline.value = currentTime;
-      const formatTime = (time) => {
-        const minutes = Math.floor(time / 60);
-        const seconds = Math.floor(time % 60)
-          .toString()
-          .padStart(2, "0");
-        return `${minutes}:${seconds}`;
-      };
-      currentTimeEl.textContent = formatTime(currentTime);
-      songLengthEl.textContent = formatTime(duration);
-    } else if (message.action === "update-volume") {
-      volumeSlider.value = message.volume;
+  chrome.runtime.onMessage.addListener((message) => {
+    switch (message.action) {
+      case "update-ui":
+        const { song, isPlaying } = message;
+        songImg.src = song.cover_img;
+        controlsSongImg.src = song.cover_img;
+        songTitle.textContent = song.title;
+        songArtist.textContent = song.artists.join(", ");
+        playPauseBtn.checked = isPlaying;
+        document.documentElement.style.setProperty(
+          "--accent",
+          song.accent_color
+        );
+
+        if (isPlaying) {
+          startVisualizer();
+        } else {
+          stopVisualizer();
+        }
+        break;
+
+      case "update-time":
+        const { currentTime, duration } = message;
+        timeline.max = duration;
+        timeline.value = currentTime;
+        currentTimeEl.textContent = formatTime(currentTime);
+        songLengthEl.textContent = formatTime(duration);
+        break;
+
+      case "update-volume":
+        volumeSlider.value = message.volume;
+        break;
     }
   });
 
-  // Request initial state when popup opens
   chrome.runtime.sendMessage({ action: "get-state" });
 });
+
+// ========================
+// ===          Helper Functions        ===
+// ========================
+const formatTime = (time) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60)
+    .toString()
+    .padStart(2, "0");
+  return `${minutes}:${seconds}`;
+};
