@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
           `;
           playlistContainer.appendChild(songItem);
           songItem.addEventListener("click", () => {
-            chrome.runtime.sendMessage({ action: "play-index", index: index });
+            chrome.runtime.sendMessage({ action: "play-song", index: index });
           });
         });
       })

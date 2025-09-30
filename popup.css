@@ -70,6 +70,56 @@ canvas {
   transition: all 1s ease;
 }
 
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: color-mix(in oklch, var(--accent), var(--bg) 20%);
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklch, var(--accent), var(--fg) 20%);
+  border: 2px solid var(--fg);
+  border-radius: 16px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklch, var(--accent), var(--bg) 10%);
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  overflow: hidden;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  cursor: pointer;
+  background: color-mix(in oklch, var(--accent), var(--fg) 50%);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--fg);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: -407px 0 0 400px color-mix(in oklch, var(--accent), var(--fg) 10%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.5);
+}
+
 .container {
   width: 320px;
   height: 400px;
@@ -116,21 +166,29 @@ canvas {
 }
 
 .about a {
-  /* Make the text colour a rainbow gradient */
-  background: linear-gradient(
-    90deg,
-    red,
-    orange,
-    yellow,
-    green,
-    blue,
-    indigo,
-    violet
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--fg);
+  text-decoration: none;
   font-weight: bolder;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.about a::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--accent);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.about a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
 
 .playlist {
@@ -424,37 +482,6 @@ img#song-img {
   transform: rotate(-90deg) translateX(50%) translateY(550%);
 }
 
-.volume-control #volume-slider {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 6px;
-  overflow: hidden;
-}
-
-.volume-control #volume-slider::-webkit-slider-runnable-track {
-  width: 100%;
-  cursor: pointer;
-  background: color-mix(in oklch, var(--accent), var(--fg) 50%);
-}
-
-.volume-control #volume-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 15px;
-  height: 15px;
-  border: 2px solid var(--fg);
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: -407px 0 0 400px color-mix(in oklch, var(--accent), var(--fg) 10%);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.volume-control #volume-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.5);
-}
-
 .volume-control button {
   background: none;
   border: none;
@@ -466,34 +493,7 @@ img#song-img {
 }
 
 #timeline {
-  -webkit-appearance: none;
-  appearance: none;
   width: 50%;
-  height: 6px;
-  overflow: hidden;
-}
-
-#timeline::-webkit-slider-runnable-track {
-  width: 100%;
-  cursor: pointer;
-  background: color-mix(in oklch, var(--accent), var(--fg) 50%);
-}
-
-#timeline::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 15px;
-  height: 15px;
-  border: 2px solid var(--fg);
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: -407px 0 0 400px color-mix(in oklch, var(--accent), var(--fg) 10%);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-#timeline::-webkit-slider-thumb:hover {
-  transform: scale(1.5);
 }
 
 .active #timeline,
@@ -535,7 +535,7 @@ img#song-img {
     scale: 1.5;
   }
 
-  &.current svg{
+  &.current svg {
     background: var(--fg);
     fill: var(--accent);
     border-radius: 50%;
