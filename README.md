@@ -20,7 +20,7 @@ Basically the internet, SIR
 BUT APART FROM THE WHOLE WORLD WHO USES IT? 
 Aliens too use them, SIR
 
-GOSH, STOP, WHAT SORT OF HELPER ARE YOU
+GOSH, STOP, WHAT SORT OF HELPER ARE YOU.
 Alien, SIR 👽
 
 <img width="323" height="487" alt="Screenshot 2025-09-29 212253" src="https://github.com/user-attachments/assets/2b3dc714-0a29-461d-b34c-f43b8f168e19" />
