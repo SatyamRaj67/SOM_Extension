@@ -20,6 +20,8 @@ Due to lack of money, I cannot host a server for myself, so you need to deal wit
 # INSTALLATION
 This project had pirated content (aka music) so I cannot officially put it on the web stores across the browsers. You will need to..
 
+There are a few steps, but they are quite easy installation. SO INHALEEEEE, EXHALEEE, AND BARE WITH ME. YOU CAN DO THIS!!
+
 ## STEP-1: Download the latest Release
 Available at [Releases](https://github.com/SatyamRaj67/SOM_Extension/releases)
 Download the zip, which has the latest tag on it.
