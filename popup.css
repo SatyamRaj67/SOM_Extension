@@ -50,8 +50,8 @@ html{
 }
 
 body {
-  width: 320px;
-  background: color-mix(in oklch, var(--accent), var(--bg) 30%);
+  width: var(--width);
+  background: var(--fg);
   color: var(--fg);
   font-family: "Roboto", sans-serif;
   overflow: hidden;
@@ -59,13 +59,11 @@ body {
 
 /* === Canvas Styles === */
 canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: absolute;
   width: 100%;
   height: 100%;
-  pointer-events: none;
   z-index: 10;
+  pointer-events: none;
 }
 
 /* === SVG Styles === */
@@ -541,6 +539,7 @@ img#song-img {
   border-bottom: 0;
   border-right: 1px solid var(--fg);
   border-left: 1px solid var(--fg);
+  border-radius: 0;
 
   &:hover {
     background: color-mix(in oklch, var(--accent), var(--bg) 30%);
