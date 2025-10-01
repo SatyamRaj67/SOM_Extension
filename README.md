@@ -114,3 +114,5 @@ BTW, It was the event CARNIVAL that inspired me to make an extension like this
 
 SHOUTOUT TO https://www.youtube.com/@hankypankus
 MAKES GOOD MUSIC!! - Youssef (Found dead 2 min later)
+
+Thanks for other community members like, Hannah, Gizzy, One for Freedom, and ChessPotato, to be joining this participation!!
