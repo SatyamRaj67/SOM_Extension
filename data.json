@@ -41,6 +41,13 @@
       "cover_img": "imgs/cg5.jpeg",
       "music": "music/Give_a_little.mp3",
       "accent_color": "#6f4d36"
+    },
+    {
+      "title": "I Hear a Symphony",
+      "artists": ["@Aris"],
+      "cover_img": "imgs/I_Hear_a_Symphony.jpeg",
+      "music": "music/I_Hear_a_Symphony.mp3",
+      "accent_color": "#0f464c"
     }
   ]
 }
