@@ -3,6 +3,12 @@
 // =========================
 
 document.addEventListener("DOMContentLoaded", () => {
+  // --- Audio Player Setup ---
+  const audio = new Audio();
+  let songs = [];
+  let currentSongIndex = 0;
+  let isPlaying = false;
+
   // --- Visualizer Setup ---
   const canvas = document.getElementById("visualizer-canvas");
   const ctx = canvas.getContext("2d");
@@ -144,6 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("data.json")
       .then((response) => response.json())
       .then((data) => {
+        songs = data.songs;
         data.songs.forEach((song, index) => {
           const songItem = document.createElement("div");
           songItem.classList.add("playlist-item");
@@ -156,9 +163,13 @@ document.addEventListener("DOMContentLoaded", () => {
           `;
           playlistContainer.appendChild(songItem);
           songItem.addEventListener("click", () => {
-            chrome.runtime.sendMessage({ action: "play-song", index: index });
+            playSong(index);
           });
         });
+        // Load the first song initially
+        if (songs.length > 0) {
+          loadSong(currentSongIndex);
+        }
       })
       .catch((error) => console.error("Error loading playlist:", error));
   }
@@ -180,83 +191,101 @@ document.addEventListener("DOMContentLoaded", () => {
   const volumeSlider = document.getElementById("volume-slider");
   const volumeControl = document.querySelector(".volume-control");
 
+  function loadSong(index) {
+    const song = songs[index];
+    audio.src = song.music;
+    updateUI(song);
+  }
+
+  function playSong(index) {
+    currentSongIndex = index;
+    loadSong(currentSongIndex);
+    audio.play();
+  }
+
+  function updateUI(song) {
+    songImg.src = song.cover_img;
+    controlsSongImg.src = song.cover_img;
+    songTitle.textContent = song.title;
+    songArtist.textContent = song.artists.join(", ");
+    document.documentElement.style.setProperty("--accent", song.accent_color);
+  }
+
+  function togglePlayPause() {
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  }
+
+  function playNext() {
+    currentSongIndex = (currentSongIndex + 1) % songs.length;
+    playSong(currentSongIndex);
+  }
+
+  function playPrev() {
+    currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+    playSong(currentSongIndex);
+  }
+
+  audio.addEventListener("play", () => {
+    isPlaying = true;
+    playPauseBtn.checked = true;
+    startVisualizer();
+  });
+
+  audio.addEventListener("pause", () => {
+    isPlaying = false;
+    playPauseBtn.checked = false;
+    stopVisualizer();
+  });
+
+  audio.addEventListener("ended", () => {
+    playNext();
+  });
+
+  audio.addEventListener("timeupdate", () => {
+    const { currentTime, duration } = audio;
+    timeline.max = duration || 0;
+    timeline.value = currentTime;
+    currentTimeEl.textContent = formatTime(currentTime);
+    if (duration) {
+      songLengthEl.textContent = formatTime(duration);
+    }
+  });
+
+  audio.addEventListener("loadedmetadata", () => {
+    songLengthEl.textContent = formatTime(audio.duration);
+    timeline.max = audio.duration;
+  });
+
   volumeBtn.addEventListener("click", () => {
     volumeControl.classList.toggle("active");
   });
 
   volumeSlider.addEventListener("input", () => {
-    chrome.runtime.sendMessage({
-      action: "set-volume",
-      volume: volumeSlider.value,
-    });
+    audio.volume = volumeSlider.value;
   });
 
   volumeSlider.addEventListener("change", () => {
     volumeControl.classList.remove("active");
   });
 
-  playPauseBtn.addEventListener("click", () => {
-    chrome.runtime.sendMessage({ action: "play-pause" });
-  });
-
-  prevBtn.addEventListener("click", () => {
-    chrome.runtime.sendMessage({ action: "prev" });
-  });
-
-  nextBtn.addEventListener("click", () => {
-    chrome.runtime.sendMessage({ action: "next" });
-  });
+  playPauseBtn.addEventListener("click", togglePlayPause);
+  prevBtn.addEventListener("click", playPrev);
+  nextBtn.addEventListener("click", playNext);
 
   timeline.addEventListener("input", () => {
-    chrome.runtime.sendMessage({ action: "seek", time: timeline.value });
+    audio.currentTime = timeline.value;
   });
-
-  // ========================
-  // ===        Message Listener         ===
-  // ========================
-
-  chrome.runtime.onMessage.addListener((message) => {
-    switch (message.action) {
-      case "update-ui":
-        const { song, isPlaying } = message;
-        songImg.src = song.cover_img;
-        controlsSongImg.src = song.cover_img;
-        songTitle.textContent = song.title;
-        songArtist.textContent = song.artists.join(", ");
-        playPauseBtn.checked = isPlaying;
-        document.documentElement.style.setProperty(
-          "--accent",
-          song.accent_color
-        );
-
-        if (isPlaying) {
-          startVisualizer();
-        } else {
-          stopVisualizer();
-        }
-        break;
-
-      case "update-time":
-        const { currentTime, duration } = message;
-        timeline.max = duration;
-        timeline.value = currentTime;
-        currentTimeEl.textContent = formatTime(currentTime);
-        songLengthEl.textContent = formatTime(duration);
-        break;
-
-      case "update-volume":
-        volumeSlider.value = message.volume;
-        break;
-    }
-  });
-
-  chrome.runtime.sendMessage({ action: "get-state" });
 });
 
 // ========================
 // ===          Helper Functions        ===
 // ========================
 const formatTime = (time) => {
+  if (isNaN(time)) return "0:00";
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60)
     .toString()
