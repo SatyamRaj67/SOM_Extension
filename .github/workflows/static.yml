@@ -30,11 +30,14 @@ jobs:
       # This step initializes / configures the Pages site (creates it the first time)
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          # Explicitly request enablement (first run creates the Pages site)
+          enablement: true
       - name: Upload static site artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Only publish the website folder so index.html is at the root
-            # (Resulting artifact root == website/ contents)
+          # (Resulting artifact root == contents of website/)
           path: website
 
   deploy:
