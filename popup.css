@@ -8,7 +8,7 @@
   --fg: oklch(0% 0 0);
   --accent: oklch(56.972% 0.17034 251.98);
 
-  --width: 480px;
+  --width: 320px;
 }
 
 .dark {
@@ -45,19 +45,27 @@
 }
 
 /* === Body Styles === */
-body {
-  min-height: 100vh;
+html{
+  overflow: hidden;
+}
 
+body {
+  width: 320px;
   background: color-mix(in oklch, var(--accent), var(--bg) 30%);
   color: var(--fg);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--fg);
-  color: var(--fg);
+  font-family: "Roboto", sans-serif;
   overflow: hidden;
-  border-radius: 0.5em;
+}
+
+/* === Canvas Styles === */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
 }
 
 /* === SVG Styles === */
@@ -202,14 +210,15 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 /* === Container Styles === */
 .container {
+  width: var(--width);
   background: var(--accent);
   width: 100%;
   border: 2px solid var(--fg);
   border-radius: 1em;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
-  overflow: hidden;
-  flex: 1;
+  /* overflow: hidden; */
+  /* flex: 1; */
 }
 
 .wrapper {
@@ -221,6 +230,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 /* === Tab Styles === */
 .tab {
   width: var(--width);
+  height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -490,7 +500,7 @@ img#song-img {
   right: 50%;
   width: 250px;
   height: 16px;
-  transform: rotate(-90deg) ;
+  transform: rotate(-90deg);
   transform-origin: right;
   display: flex;
   border: 2px solid var(--fg);
