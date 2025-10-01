@@ -54,6 +54,24 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  font-family: "Roboto", sans-serif;
+}
+
+/* === Demo Notice === */
+.demo-notice {
+  text-align: center;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+/* === Main Styles === */
+main {
+  position: relative;
+  width: var(--width);
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
   background: var(--fg);
   color: var(--fg);
   overflow: hidden;
@@ -62,7 +80,7 @@ body {
 
 /* === Canvas Styles === */
 canvas {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -477,7 +495,6 @@ img#song-img {
   padding: 0.5em 1em;
 
   background: color-mix(in oklch, var(--accent), var(--bg) 10%);
-  transition-delay: 0.25s;
   border: 1px solid var(--fg);
   border-bottom: 0;
   border-top-left-radius: 1em;
@@ -501,7 +518,7 @@ img#song-img {
   right: 50%;
   width: 250px;
   height: 16px;
-  transform: rotate(-90deg);
+  transform: rotate(-90deg) ;
   transform-origin: right;
   display: flex;
   border: 2px solid var(--fg);
