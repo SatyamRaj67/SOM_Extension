@@ -33,6 +33,7 @@ The downloaded file should look like this
 
 ## STEP-2: Extract it somewhere on the computer
 Right click on zip, and extract the folder!!
+
 <img width="312" height="543" alt="image" src="https://github.com/user-attachments/assets/74e97a3b-9966-463e-8a2a-1eb2ace0fca2" />
 
 
@@ -40,10 +41,13 @@ Right click on zip, and extract the folder!!
 Don't worry, it will automatically take you to your extensions panel
 
 I use brave, so this is how, mine looks like 
+
 <img width="1367" height="681" alt="image" src="https://github.com/user-attachments/assets/0e34851e-4cd8-4b03-8da2-9714ee833ebc" />
 
 ## STEP-4: Enable DEVELOPER Tools
 On the top left corner, there is a button to toggle on and off Developer Mode. Turn it On.
+
+
 <img width="182" height="72" alt="image" src="https://github.com/user-attachments/assets/bb016a31-70f1-401a-acf5-825c281ae0d7" />
 
 
