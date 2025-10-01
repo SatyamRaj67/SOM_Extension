@@ -26,10 +26,9 @@ SATYAM: GOSH, STOP, WHAT SORT OF HELPER ARE YOU.
 
 ANANONYMOUS HELPER: Alien, SIR 👽
 
-<img width="323" height="487" alt="Screenshot 2025-09-29 212253" src="https://github.com/user-attachments/assets/2b3dc714-0a29-461d-b34c-f43b8f168e19" />
-<img width="321" height="485" alt="Screenshot 2025-09-29 212120" src="https://github.com/user-attachments/assets/addc8bfe-977b-4fa7-be77-0b2ec2d30bb8" />
-<img width="326" height="488" alt="Screenshot 2025-09-29 212229" src="https://github.com/user-attachments/assets/d46d985d-66b2-46c1-b426-c005c7536468" />
-
+<img width="321" height="486" alt="image" src="https://github.com/user-attachments/assets/5fb37810-40de-4b4c-88f3-8710b5fd7a02" />
+<img width="321" height="486" alt="image" src="https://github.com/user-attachments/assets/a813cc00-7cb8-4071-93c9-e501e6a874f8" />
+<img width="321" height="486" alt="image" src="https://github.com/user-attachments/assets/51e478ac-05cf-48ac-9c7f-6faa37fd93d9" />
 
 # TODO:
 ### Urgent
