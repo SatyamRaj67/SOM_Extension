@@ -38,7 +38,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "./website"
+          # Deploy only the static website folder so index.html is at the site root
+          # If you later build to a dist folder, change this to that build output path.
+          path: "website"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
