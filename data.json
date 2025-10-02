@@ -1,6 +1,13 @@
 {
   "songs": [
     {
+      "title": "Life Alyx",
+      "artists": ["@Rowan - THE FOX!!"],
+      "cover_img": "imgs/Anti-citizen.png",
+      "music": "music/Life_Alyx-Anti-Citizen.mp3",
+      "accent_color": "#1f352e"
+    },
+    {
       "title": "Fireworks",
       "artists": ["@Hannah"],
       "cover_img": "imgs/fireworks.png",
@@ -48,13 +55,6 @@
       "cover_img": "imgs/I_Hear_a_Symphony.jpeg",
       "music": "music/I_Hear_a_Symphony.mp3",
       "accent_color": "#0f464c"
-    },
-    {
-      "title": "Life Alyx",
-      "artists": ["@Rowan - THE FOX!!"],
-      "cover_img": "imgs/Anti-citizen.png",
-      "music": "music/Life_Alyx-Anti-Citizen.mp3",
-      "accent_color": "#1f352e"
     }
   ]
 }
