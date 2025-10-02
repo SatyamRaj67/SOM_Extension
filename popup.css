@@ -6,7 +6,7 @@
 :root {
   --bg: oklch(97.015% 0.00011 271.152);
   --fg: oklch(0% 0 0);
-  --accent: oklch(56.972% 0.17034 251.98);
+  --accent: #1f352e;
 
   --width: 320px;
   --height: 400px;
