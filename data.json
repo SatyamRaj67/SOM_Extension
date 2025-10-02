@@ -48,6 +48,13 @@
       "cover_img": "imgs/I_Hear_a_Symphony.jpeg",
       "music": "music/I_Hear_a_Symphony.mp3",
       "accent_color": "#0f464c"
+    },
+    {
+      "title": "Life Alyx",
+      "artists": ["@Rowan - THE FOX!!"],
+      "cover_img": "imgs/Anti-Citizen.png",
+      "music": "music/Life_Alyx-Anti-Citizen.mp3",
+      "accent_color": "#1f352e"
     }
   ]
 }
