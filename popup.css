@@ -224,6 +224,7 @@ section .app {
   border-radius: 10px;
   transition: 0.5s;
   transition-delay: 0s;
+  z-index: -1;
 }
 
 .hero .links button:hover::after {
