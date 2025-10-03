@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <meta
+      name="description"
+      content="A music player web app for demonstration of the Chrome extension music player"
+    />
     <title>Music Player</title>
     <link
       rel="stylesheet"
       type="text/css"
-      href="popup.css"
+      href="index.css"
     />
-    <link rel="icon" href="imgs/logo.png">
+    <link
+      rel="icon"
+      href="imgs/logo.png"
+    />
   </head>
   <body class="dark">
     <main>
@@ -24,7 +36,7 @@
             <div class="imgBx">
               <img
                 id="song-img"
-                src="imgs/song-1.jpg"
+                src="imgs/Anti-citizen.png"
                 alt="Song 1"
               />
               <input
@@ -99,12 +111,21 @@
 
           <div class="tab">
             <h1>Playlist</h1>
-            <div
+            <div class="inputBox">
+              <input
+                type="text"
+                id="search-input"
+                required
+              />
+
+              <span>Search Songs</span>
+            </div>
+            <ul
               class="playlist"
               id="playlist-container"
             >
-              <!-- Playlist items will be injected here by JavaScript -->
-            </div>
+              <!-- Playlist items will be dynamically added here -->
+            </ul>
           </div>
 
           <!-- === Tab 3: About Section  === -->
@@ -171,7 +192,7 @@
           <div class="imgBx">
             <img
               id="controls-song-img"
-              src="imgs/song-1.jpg"
+              src="imgs/Anti-citizen.png"
               alt="Song 1"
             />
           </div>

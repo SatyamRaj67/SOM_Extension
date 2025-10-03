@@ -18,7 +18,7 @@ let animationFrameId;
 const config = {
   barWidth: 5,
   gap: 5,
-  minHeight: 2,
+  minHeight: 0,
   maxHeight: 20,
   color: "#fff",
 };
@@ -140,6 +140,24 @@ if (playerTabBtn && playlistTabBtn && aboutViewBtn && wrapper) {
   playerTabBtn.classList.add("current");
 }
 
+// ======================
+// === Playlist Search ===
+// ======================
+document.getElementById("search-input").addEventListener("input", (event) => {
+  const query = event.target.value.toLowerCase();
+  const playlistItems = document.querySelectorAll(".playlist-item");
+
+  playlistItems.forEach((item) => {
+    let title = item.querySelector("h3").textContent.toLowerCase();
+    let artists = item.querySelector("p").textContent.toLowerCase();
+    if (title.includes(query) || artists.includes(query)) {
+      item.style.display = "flex";
+    } else {
+      item.style.display = "none";
+    }
+  });
+});
+
 // =====================
 // ===      Playlist Loading      ===
 // =====================
@@ -150,7 +168,7 @@ if (playlistContainer) {
     .then((data) => {
       songs = data.songs;
       data.songs.forEach((song, index) => {
-        const songItem = document.createElement("div");
+        const songItem = document.createElement("li");
         songItem.classList.add("playlist-item");
         songItem.innerHTML = `
             <img src="${song.cover_img}" alt="${song.title}">
