@@ -372,7 +372,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   padding-bottom: 1em;
 }
 
-.inputBox input {
+.inputBox input[type="text"] {
   width: 100%;
   padding: 10px;
   border: 2px solid var(--fg);
@@ -819,6 +819,85 @@ img#song-img {
     border-radius: 50%;
     border: 0.2em solid var(--fg);
   }
+}
+
+/* === Dialog Styles === */
+dialog {
+  position: fixed;
+  left: 50%;
+  top: 50%; 
+  transform: translate(-50%, -50%);
+  background: color-mix(in oklch, var(--accent), var(--bg) 10%);
+  color: var(--fg);
+  border: 2px solid var(--fg);
+  border-radius: 1em;
+  padding: 2em;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+dialog h2 {
+  text-align: center;
+  margin-bottom: 1em;
+  font-family: "Orbitron", sans-serif;
+}
+
+dialog form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+dialog .inputBox {
+  width: 100%;
+  padding-bottom: 0;
+}
+
+dialog .inputBox input[type="file"] {
+  color: transparent;
+}
+
+dialog .inputBox input[type="file"]::-webkit-file-upload-button {
+  visibility: hidden;
+  display: none;
+}
+
+dialog .inputBox input[type="file"]::before {
+  content: "Choose File";
+  display: inline-block;
+  background: color-mix(in oklch, var(--accent), var(--bg) 20%);
+  border: 2px solid var(--fg);
+  border-radius: 5px;
+  padding: 8px;
+  outline: none;
+  white-space: nowrap;
+  cursor: pointer;
+  color: var(--fg);
+  margin-right: 10px;
+}
+
+dialog .inputBox input[type="file"]:valid::after {
+  content: attr(data-file-name);
+  color: var(--fg);
+}
+
+.dialog-buttons {
+  display: flex;
+  gap: 1em;
+  width: 100%;
+  margin-top: 1em;
+}
+
+.dialog-buttons button {
+  flex: 1;
+  padding: 0.75em;
 }
 
 @media screen and (max-width: 800px) {

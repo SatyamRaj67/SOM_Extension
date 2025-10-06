@@ -162,25 +162,35 @@ document.getElementById("search-input").addEventListener("input", (event) => {
 // ===      Playlist Loading      ===
 // =====================
 const playlistContainer = document.getElementById("playlist-container");
+
+function renderSongItem(song, index) {
+  const songItem = document.createElement("li");
+  songItem.classList.add("playlist-item");
+  songItem.dataset.index = index;
+  songItem.innerHTML = `
+      <img src="${song.cover_img}" alt="${song.title}">
+      <div>
+        <h3>${song.title}</h3>
+        <p>${song.artists.join(", ")}</p>
+      </div>
+    `;
+  songItem.addEventListener("click", () => {
+    playSong(index);
+  });
+  // Insert before the "Add Song" button
+  playlistContainer.insertBefore(
+    songItem,
+    document.getElementById("add-song-btn")
+  );
+}
+
 if (playlistContainer) {
   fetch("data.json")
     .then((response) => response.json())
     .then((data) => {
       songs = data.songs;
-      data.songs.forEach((song, index) => {
-        const songItem = document.createElement("li");
-        songItem.classList.add("playlist-item");
-        songItem.innerHTML = `
-            <img src="${song.cover_img}" alt="${song.title}">
-            <div >
-              <h3 >${song.title}</h3>
-              <p>${song.artists.join(", ")}</p>
-            </div>
-          `;
-        playlistContainer.appendChild(songItem);
-        songItem.addEventListener("click", () => {
-          playSong(index);
-        });
+      songs.forEach((song, index) => {
+        renderSongItem(song, index);
       });
       // Load the first song initially
       if (songs.length > 0) {
@@ -307,3 +317,79 @@ const formatTime = (time) => {
     .padStart(2, "0");
   return `${minutes}:${seconds}`;
 };
+
+// =========================
+// === Dialog Box Functions ===
+// =========================
+const dialog = document.getElementById("dialog");
+const form = document.getElementById("dialog-form");
+const addSongBtn = document.getElementById("add-song-btn");
+const cancelBtn = document.getElementById("cancel-btn");
+const newSongFileInput = document.getElementById("new-song-file");
+const newSongImageInput = document.getElementById("new-song-image-file");
+
+function openDialog() {
+  form.reset();
+  newSongFileInput.dataset.fileName = "";
+  newSongImageInput.dataset.fileName = "";
+  dialog.showModal();
+}
+
+function closeDialog() {
+  dialog.close();
+}
+
+addSongBtn.addEventListener("click", openDialog);
+cancelBtn.addEventListener("click", closeDialog);
+
+newSongFileInput.addEventListener("change", (e) => {
+  if (e.target.files.length > 0) {
+    e.target.dataset.fileName = e.target.files[0].name;
+  }
+});
+
+newSongImageInput.addEventListener("change", (e) => {
+  if (e.target.files.length > 0) {
+    e.target.dataset.fileName = e.target.files[0].name;
+  }
+});
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const musicFile = newSongFileInput.files[0];
+  const imageFile = newSongImageInput.files[0];
+
+  if (!musicFile || !imageFile) {
+    alert("Please select both an audio and an image file.");
+    return;
+  }
+
+  const newSong = {
+    title: document.getElementById("new-song-title").value,
+    artists: document
+      .getElementById("new-song-artist")
+      .value.split(",")
+      .map((artist) => artist.trim()),
+    music: URL.createObjectURL(musicFile),
+    cover_img: URL.createObjectURL(imageFile),
+    accent_color: "#" + Math.floor(Math.random() * 16777215).toString(16), // Random accent color
+  };
+
+  const newIndex = songs.length;
+  songs.push(newSong);
+  renderSongItem(newSong, newIndex);
+  closeDialog();
+});
+
+dialog.addEventListener("click", (event) => {
+  const rect = dialog.getBoundingClientRect();
+  const isDialog =
+    event.clientX >= rect.left &&
+    event.clientX <= rect.right &&
+    event.clientY >= rect.top &&
+    event.clientY <= rect.bottom;
+  if (!isDialog) {
+    dialog.close("backdrop");
+  }
+});

@@ -145,14 +145,28 @@
                     id="search-input"
                     required
                   />
-  
+
                   <span>Search Songs</span>
                 </div>
                 <ul
-                class="playlist"
-                id="playlist-container"
+                  class="playlist"
+                  id="playlist-container"
                 >
                   <!-- Playlist items will be dynamically added here -->
+
+                  <li
+                    class="playlist-item"
+                    id="add-song-btn"
+                  >
+                    <img
+                      src="add.svg"
+                      alt="Add Button"
+                    />
+                    <div>
+                      <h3>Have Songs?</h3>
+                      <p>Click Here</p>
+                    </div>
+                  </li>
                 </ul>
               </div>
 
@@ -339,15 +353,70 @@
         </main>
       </div>
     </section>
-    <script
-      src="index.js"
-      defer
-    ></script>
-    <script>
-      for (var i = 0; i < 200; i++) {
-        span = document.createElement("span");
-        document.getElementsByTagName("section")[0].appendChild(span);
-      }
-    </script>
+
+    <!-- Dialog -->
+    <dialog id="dialog">
+      <form
+        action=""
+        id="dialog-form"
+      >
+        <h2>Add a New Song</h2>
+        <div class="inputBox">
+          <input
+            type="text"
+            id="new-song-title"
+            required
+          />
+          <span>Song Title</span>
+        </div>
+        <div class="inputBox">
+          <input
+            type="text"
+            id="new-song-artist"
+            required
+          />
+          <span>Song Artist </span>
+        </div>
+        <div class="inputBox">
+          <input
+            type="file"
+            id="new-song-file"  
+            accept="audio/*"
+            required
+          />
+          <!-- <span>Song File</span> -->
+        </div>
+        <div class="inputBox">
+          <input
+            type="file"
+            id="new-song-image-file"
+            accept="image/*"
+            required
+          />
+          <!-- <span>Image File</span> -->
+        </div>
+
+        <div class="dialog-buttons">
+          <button
+            type="button"
+            id="cancel-btn"
+          >
+            Cancel
+          </button>
+          <button type="submit">Add Song</button>
+        </div>
+      </form>
+    </dialog>
   </body>
+  <script
+    src="index.js"
+    defer
+  ></script>
+  <script>
+    // === ONLY FOR UI ===
+    for (var i = 0; i < 200; i++) {
+      span = document.createElement("span");
+      document.getElementsByTagName("section")[0].appendChild(span);
+    }
+  </script>
 </html>
