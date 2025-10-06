@@ -373,7 +373,7 @@ form.addEventListener("submit", (event) => {
       .map((artist) => artist.trim()),
     music: URL.createObjectURL(musicFile),
     cover_img: URL.createObjectURL(imageFile),
-    accent_color: "#" + Math.floor(Math.random() * 16777215).toString(16), 
+    accent_color: "#" + Math.floor(Math.random() * 16777215).toString(16), // Random accent color
   };
 
   const newIndex = songs.length;
