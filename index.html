@@ -1,15 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-    <meta
-      name="description"
-      content="A music player web app for demonstration of the Chrome extension music player"
-    />
     <title>Music Player</title>
     <link
       rel="stylesheet"
@@ -68,7 +59,7 @@
                   />
                   <img
                     id="song-img"
-                    src="imgs/Anti-citizen.png"
+                    src="imgs/song-1.jpg"
                     alt="Song 1"
                   />
                   <label for="play-pause-btn">
@@ -139,35 +130,12 @@
 
               <div class="tab">
                 <h1>Playlist</h1>
-                <div class="inputBox">
-                  <input
-                    type="text"
-                    id="search-input"
-                    required
-                  />
-
-                  <span>Search Songs</span>
-                </div>
-                <ul
+                <div
                   class="playlist"
                   id="playlist-container"
                 >
-                  <!-- Playlist items will be dynamically added here -->
-
-                  <li
-                    class="playlist-item"
-                    id="add-song-btn"
-                  >
-                    <img
-                      src="add.svg"
-                      alt="Add Button"
-                    />
-                    <div>
-                      <h3>Have Songs?</h3>
-                      <p>Click Here</p>
-                    </div>
-                  </li>
-                </ul>
+                  <!-- Playlist items will be injected here by JavaScript -->
+                </div>
               </div>
 
               <!-- === Tab 3: About Section  === -->
@@ -235,7 +203,7 @@
               <div class="imgBx">
                 <img
                   id="controls-song-img"
-                  src="imgs/Anti-citizen.png"
+                  src="imgs/song-1.jpg"
                   alt="Song 1"
                 />
               </div>
@@ -353,7 +321,6 @@
         </main>
       </div>
     </section>
-
     <!-- Dialog -->
     <dialog id="dialog">
       <form
@@ -380,7 +347,7 @@
         <div class="inputBox">
           <input
             type="file"
-            id="new-song-file"  
+            id="new-song-file"
             accept="audio/*"
             required
           />
@@ -413,7 +380,6 @@
     defer
   ></script>
   <script>
-    // === ONLY FOR UI ===
     for (var i = 0; i < 200; i++) {
       span = document.createElement("span");
       document.getElementsByTagName("section")[0].appendChild(span);

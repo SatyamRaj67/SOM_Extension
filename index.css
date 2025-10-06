@@ -54,7 +54,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-display: swap;
   font-family: "Roboto", sans-serif;
 }
 
@@ -333,85 +332,6 @@ body:has(input[type="checkbox"]:checked) img#controls-song-img {
   animation-play-state: running;
 }
 
-/* === Custom Range Selector === */
-input[type="range"] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 6px;
-  overflow: hidden;
-}
-
-input[type="range"]::-webkit-slider-runnable-track {
-  width: 100%;
-  cursor: pointer;
-  background: color-mix(in oklch, var(--accent), var(--fg) 50%);
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 15px;
-  height: 15px;
-  border: 2px solid var(--fg);
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: -407px 0 0 400px color-mix(in oklch, var(--accent), var(--fg) 10%);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.5);
-}
-
-/* === Custom Text Input === */
-.inputBox {
-  position: relative;
-  width: 80%;
-  padding-bottom: 1em;
-}
-
-.inputBox input[type="text"] {
-  width: 100%;
-  padding: 10px;
-  border: 2px solid var(--fg);
-  background: color-mix(in oklch, var(--accent), var(--bg) 10%);
-  border-radius: 5px;
-  outline: none;
-  color: #fff;
-  font-size: 1em;
-  transition: 0.5s;
-}
-
-.inputBox span {
-  position: absolute;
-  left: 0;
-  padding: 10px;
-  pointer-events: none;
-  font-size: 1em;
-  color: var(--fg);
-  text-transform: uppercase;
-  transition: 0.5s;
-}
-
-.inputBox input:valid ~ span,
-.inputBox input:focus ~ span,
-.inputBox input[type="file"] ~ span {
-  color: var(--fg);
-  transform: translateX(10px) translateY(-7px);
-  font-size: 0.65em;
-  padding: 0 10px;
-  background: color-mix(in oklch, var(--accent), var(--bg) 10%);
-  border: 2px solid var(--fg);
-  border-radius: 1em;
-}
-
-.inputBox input:valid,
-.inputBox input:focus {
-  border: 2px solid var(--fg);
-}
-
 /* === Custom Button === */
 button,
 label {
@@ -452,6 +372,38 @@ label:hover {
   display: inline;
 }
 
+/* === Custom Range Selector === */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  overflow: hidden;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  cursor: pointer;
+  background: color-mix(in oklch, var(--accent), var(--fg) 50%);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--fg);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: -407px 0 0 400px color-mix(in oklch, var(--accent), var(--fg) 10%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.5);
+}
+
 /* === Container Styles === */
 .container {
   background: var(--accent);
@@ -481,17 +433,18 @@ label:hover {
 
 /* === Special Tab Styles for Playlist Tab === */
 .playlist {
-  width: 80%;
+  width: 100%;
+  height: 100%;
   overflow-y: auto;
   padding: 0 1em;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
 }
 
 .playlist-item {
-  width: 100%;
+  width: 90%;
   display: flex;
   align-items: center;
   gap: 1em;
@@ -775,7 +728,7 @@ img#song-img {
 }
 
 .active #timeline,
-.active .controls span {
+.active main span {
   display: none;
 }
 
@@ -794,10 +747,9 @@ img#song-img {
   border-right: 1px solid var(--fg);
   border-left: 1px solid var(--fg);
   border-radius: 0;
-  background: color-mix(in oklch, var(--accent), var(--bg) 30%);
 
   &:hover {
-    background: color-mix(in oklch, var(--accent), var(--bg) 40%);
+    background: color-mix(in oklch, var(--accent), var(--bg) 30%);
     font-weight: bold;
     transform: scale(1);
   }
@@ -821,7 +773,6 @@ img#song-img {
     border: 0.2em solid var(--fg);
   }
 }
-
 /* === Dialog Styles === */
 dialog {
   position: fixed;

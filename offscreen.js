@@ -13,35 +13,21 @@ audioPlayer.addEventListener('ended', () => {
 });
 
 chrome.runtime.onMessage.addListener((message) => {
-  switch (message.action) {
-    case "load":
-      // Load a new song if the source is different
-      if (message.song && audioPlayer.src !== message.song) {
-        audioPlayer.src = message.song;
-        audioPlayer.load(); // Explicitly load the new source
+  if (message.action === 'play-pause') {
+    if (message.isPlaying) {
+      if (audioPlayer.src !== chrome.runtime.getURL(message.song)) {
+        audioPlayer.src = chrome.runtime.getURL(message.song);
       }
-      break;
-
-    case "play":
-      // Play the currently loaded song
       audioPlayer.play();
-      break;
-
-    case "play-pause":
-      // Toggle play/pause based on the state from background.js
-      if (message.isPlaying) {
-        audioPlayer.play();
-      } else {
-        audioPlayer.pause();
-      }
-      break;
-
-    case "seek":
-      audioPlayer.currentTime = message.time;
-      break;
-
-    case "set-volume":
-      audioPlayer.volume = message.volume;
-      break;
+    } else {
+      audioPlayer.pause();
+    }
+  } else if (message.action === 'play') {
+    audioPlayer.src = chrome.runtime.getURL(message.song);
+    audioPlayer.play();
+  } else if (message.action === 'seek') {
+    audioPlayer.currentTime = message.time;
+  } else if (message.action === 'set-volume') {
+    audioPlayer.volume = message.volume;
   }
 });
