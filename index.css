@@ -396,7 +396,8 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 .inputBox input:valid ~ span,
-.inputBox input:focus ~ span {
+.inputBox input:focus ~ span,
+.inputBox input[type="file"] ~ span {
   color: var(--fg);
   transform: translateX(10px) translateY(-7px);
   font-size: 0.65em;
@@ -825,7 +826,7 @@ img#song-img {
 dialog {
   position: fixed;
   left: 50%;
-  top: 50%; 
+  top: 50%;
   transform: translate(-50%, -50%);
   background: color-mix(in oklch, var(--accent), var(--bg) 10%);
   color: var(--fg);
@@ -898,6 +899,9 @@ dialog .inputBox input[type="file"]:valid::after {
 .dialog-buttons button {
   flex: 1;
   padding: 0.75em;
+  &:hover {
+    transform: scale(1.1);
+  }
 }
 
 @media screen and (max-width: 800px) {
