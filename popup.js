@@ -158,27 +158,40 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===      Playlist Loading      ===
   // =====================
   const playlistContainer = document.getElementById("playlist-container");
-  if (playlistContainer) {
-    fetch("data.json")
-      .then((response) => response.json())
-      .then((data) => {
-        data.songs.forEach((song, index) => {
-          const songItem = document.createElement("div");
-          songItem.classList.add("playlist-item");
-          songItem.innerHTML = `
-            <img src="${song.cover_img}" alt="${song.title}">
-            <div >
-              <h3 >${song.title}</h3>
-              <p>${song.artists.join(", ")}</p>
-            </div>
-          `;
-          playlistContainer.appendChild(songItem);
-          songItem.addEventListener("click", () => {
-            chrome.runtime.sendMessage({ action: "play-song", index: index });
-          });
-        });
-      })
-      .catch((error) => console.error("Error loading playlist:", error));
+
+  function renderPlaylist(songs) {
+    // Clear existing playlist items except the "Add" button
+    const items = playlistContainer.querySelectorAll(".playlist-item:not(#add-song-btn)");
+    items.forEach(item => item.remove());
+
+    const addSongBtn = document.getElementById("add-song-btn");
+
+    songs.forEach((song, index) => {
+      const songItem = document.createElement("li");
+      songItem.classList.add("playlist-item");
+      songItem.innerHTML = `
+        <img src="${song.cover_img}" alt="${song.title}">
+        <div class="song-details">
+          <h3>${song.title}</h3>
+          <p>${song.artists.join(", ")}</p>
+        </div>
+        <button class="remove-song-btn" title="Remove Song">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+        </button>
+      `;
+      
+      // Insert before the add button
+      playlistContainer.insertBefore(songItem, addSongBtn);
+
+      songItem.querySelector('.song-details').addEventListener("click", () => {
+        chrome.runtime.sendMessage({ action: "play-song", index: index });
+      });
+
+      songItem.querySelector('.remove-song-btn').addEventListener("click", (e) => {
+        e.stopPropagation();
+        chrome.runtime.sendMessage({ action: "remove-song", index: index });
+      });
+    });
   }
 
   // ========================
@@ -253,6 +266,20 @@ document.addEventListener("DOMContentLoaded", () => {
           stopVisualizer();
         }
         break;
+      
+      case "update-ui-empty":
+        songImg.src = "imgs/logo.png";
+        controlsSongImg.src = "imgs/logo.png";
+        songTitle.textContent = "No songs in playlist";
+        songArtist.textContent = "Add a song to begin";
+        playPauseBtn.checked = false;
+        document.documentElement.style.setProperty("--accent", "#333");
+        timeline.value = 0;
+        timeline.max = 0;
+        currentTimeEl.textContent = "0:00";
+        songLengthEl.textContent = "0:00";
+        stopVisualizer();
+        break;
 
       case "update-time":
         const { currentTime, duration } = message;
@@ -264,6 +291,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "update-volume":
         volumeSlider.value = message.volume;
+        break;
+      
+      case "update-playlist":
+        renderPlaylist(message.playlist);
         break;
     }
   });
@@ -318,7 +349,17 @@ newSongImageInput.addEventListener("change", (e) => {
   }
 });
 
-form.addEventListener("submit", (event) => {
+// Helper to read file as a data URL
+function readFileAsDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const musicFile = newSongFileInput.files[0];
@@ -329,20 +370,26 @@ form.addEventListener("submit", (event) => {
     return;
   }
 
-  const newSong = {
-    title: document.getElementById("new-song-title").value,
-    artists: document
-      .getElementById("new-song-artist")
-      .value.split(",")
-      .map((artist) => artist.trim()),
-    music: URL.createObjectURL(musicFile),
-    cover_img: URL.createObjectURL(imageFile),
-    accent_color:
-      "#" + document.getElementById("new-song-colour").value.replace(/^#/, ""),
-  };
+  try {
+    const musicDataURL = await readFileAsDataURL(musicFile);
+    const imageDataURL = await readFileAsDataURL(imageFile);
 
-  const newIndex = songs.length;
-  songs.push(newSong);
-  renderSongItem(newSong, newIndex);
-  closeDialog();
+    const newSong = {
+      title: document.getElementById("new-song-title").value,
+      artists: document
+        .getElementById("new-song-artist")
+        .value.split(",")
+        .map((artist) => artist.trim()),
+      music: musicDataURL,
+      cover_img: imageDataURL,
+      accent_color:
+        "#" + document.getElementById("new-song-colour").value.replace(/^#/, ""),
+    };
+
+    chrome.runtime.sendMessage({ action: "add-song", song: newSong });
+    closeDialog();
+  } catch (error) {
+    console.error("Error reading files:", error);
+    alert("There was an error processing the files.");
+  }
 });
