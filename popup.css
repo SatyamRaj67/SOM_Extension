@@ -276,6 +276,7 @@ h1 {
   text-transform: uppercase;
   position: relative;
   padding: 0.5em 0;
+  text-align: center;
 }
 
 h1::before {
@@ -501,10 +502,19 @@ label:hover {
   margin-bottom: 0.5em;
 }
 
+
 .playlist-item:hover {
   background: color-mix(in oklch, var(--accent), var(--bg) 20%);
 }
 
+.playlist-item .song-details{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: hidden;
+}
 .playlist-item img {
   width: 50px;
   height: 50px;
@@ -835,57 +845,46 @@ dialog {
   width: 90%;
   max-width: 500px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
 }
 
 dialog::backdrop {
   background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
 }
 
-dialog h2 {
-  text-align: center;
-  margin-bottom: 1em;
-  font-family: "Orbitron", sans-serif;
-}
-
-dialog form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1em;
-}
-
-dialog .inputBox {
+dialog .inputBox{
   width: 100%;
-  padding-bottom: 0;
 }
 
-dialog .inputBox input[type="file"] {
-  color: transparent;
-}
-
-dialog .inputBox input[type="file"]::-webkit-file-upload-button {
-  visibility: hidden;
-  display: none;
-}
-
-dialog .inputBox input[type="file"]::before {
-  content: "Choose File";
-  display: inline-block;
-  background: color-mix(in oklch, var(--accent), var(--bg) 20%);
+dialog input[type="file"]{
+  width: 100%;
+  padding: 0.5em;
   border: 2px solid var(--fg);
+  background: color-mix(in oklch, var(--accent), var(--bg) 10%);
   border-radius: 5px;
-  padding: 8px;
   outline: none;
-  white-space: nowrap;
-  cursor: pointer;
-  color: var(--fg);
-  margin-right: 10px;
+  color: #fff;
+  font-size: 1em;
 }
 
-dialog .inputBox input[type="file"]:valid::after {
-  content: attr(data-file-name);
+dialog input[type="file"]::file-selector-button {
   color: var(--fg);
+  background: color-mix(in oklch, var(--accent), var(--bg) 20%);
+  padding: 0.5em 1em;
+  border : 2px solid var(--fg);
+  border-radius: 0.5em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+dialog input[type="file"]::file-selector-button:hover {
+  background: color-mix(in oklch, var(--accent), var(--bg) 30%);
+  letter-spacing: 0.05em;
+}
+
+dialog h2{
+  text-align: center;
+  margin-bottom: 0.5em;
 }
 
 .dialog-buttons {
@@ -898,6 +897,11 @@ dialog .inputBox input[type="file"]:valid::after {
 .dialog-buttons button {
   flex: 1;
   padding: 0.75em;
+}
+
+.dialog-buttons button:hover {
+  transform: scale(1.1);
+  letter-spacing: 0.1em;
 }
 
 @media screen and (max-width: 800px) {

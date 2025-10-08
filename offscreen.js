@@ -13,28 +13,40 @@ audioPlayer.addEventListener('ended', () => {
 });
 
 chrome.runtime.onMessage.addListener((message) => {
-  const songUrl = message.song;
-  const isDataUrl = songUrl && songUrl.startsWith('data:');
+  switch (message.action) {
+    case 'play-pause': {
+      const songUrl = message.song;
+      if (!songUrl) return;
+      const isDataUrl = songUrl.startsWith('data:');
 
-  if (message.action === 'play-pause') {
-    if (message.isPlaying) {
-      const newSrc = isDataUrl ? songUrl : chrome.runtime.getURL(songUrl);
-      if (audioPlayer.src !== newSrc) {
-        audioPlayer.src = newSrc;
+      if (message.isPlaying) {
+        const newSrc = isDataUrl ? songUrl : chrome.runtime.getURL(songUrl);
+        if (audioPlayer.src !== newSrc) {
+          audioPlayer.src = newSrc;
+        }
+        audioPlayer.play();
+      } else {
+        audioPlayer.pause();
       }
-      audioPlayer.play();
-    } else {
-      audioPlayer.pause();
+      break;
     }
-  } else if (message.action === 'play') {
-    audioPlayer.src = isDataUrl ? songUrl : chrome.runtime.getURL(songUrl);
-    audioPlayer.play();
-  } else if (message.action === 'seek') {
-    audioPlayer.currentTime = message.time;
-  } else if (message.action === 'set-volume') {
-    audioPlayer.volume = message.volume;
-  } else if (message.action === 'stop') {
-    audioPlayer.pause();
-    audioPlayer.src = "";
+    case 'play': {
+      const songUrl = message.song;
+      if (!songUrl) return;
+      const isDataUrl = songUrl.startsWith('data:');
+      audioPlayer.src = isDataUrl ? songUrl : chrome.runtime.getURL(songUrl);
+      audioPlayer.play();
+      break;
+    }
+    case 'seek':
+      audioPlayer.currentTime = message.time;
+      break;
+    case 'set-volume':
+      audioPlayer.volume = message.volume;
+      break;
+    case 'stop':
+      audioPlayer.pause();
+      audioPlayer.src = "";
+      break;
   }
 });
