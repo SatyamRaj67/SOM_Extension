@@ -161,8 +161,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderPlaylist(songs) {
     // Clear existing playlist items except the "Add" button
-    const items = playlistContainer.querySelectorAll(".playlist-item:not(#add-song-btn)");
-    items.forEach(item => item.remove());
+    const items = playlistContainer.querySelectorAll(
+      ".playlist-item:not(#add-song-btn)"
+    );
+    items.forEach((item) => item.remove());
 
     const addSongBtn = document.getElementById("add-song-btn");
 
@@ -179,18 +181,20 @@ document.addEventListener("DOMContentLoaded", () => {
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
         </button>
       `;
-      
+
       // Insert before the add button
       playlistContainer.insertBefore(songItem, addSongBtn);
 
-      songItem.querySelector('.song-details').addEventListener("click", () => {
+      songItem.querySelector(".song-details").addEventListener("click", () => {
         chrome.runtime.sendMessage({ action: "play-song", index: index });
       });
 
-      songItem.querySelector('.remove-song-btn').addEventListener("click", (e) => {
-        e.stopPropagation();
-        chrome.runtime.sendMessage({ action: "remove-song", index: index });
-      });
+      songItem
+        .querySelector(".remove-song-btn")
+        .addEventListener("click", (e) => {
+          e.stopPropagation();
+          chrome.runtime.sendMessage({ action: "remove-song", index: index });
+        });
     });
   }
 
@@ -255,10 +259,21 @@ document.addEventListener("DOMContentLoaded", () => {
         songTitle.textContent = song.title;
         songArtist.textContent = song.artists.join(", ");
         playPauseBtn.checked = isPlaying;
-        document.documentElement.style.setProperty(
-          "--accent",
-          song.accent_color
-        );
+
+        Vibrant.from(song.cover_img)
+          .getPalette()
+          .then((palette) => {
+            console.log("Extracted Palette:", palette);
+            const accentColor =
+              (palette.DarkVibrant && palette.DarkVibrant.getHex()) ||
+              (palette.DarkMuted && palette.DarkMuted.getHex()) ||
+              "#333"; // Fallback
+            document.documentElement.style.setProperty("--accent", accentColor);
+          })
+          .catch((err) => {
+            console.error("Failed to extract palette, using fallback", err);
+            document.documentElement.style.setProperty("--accent", "#333");
+          });
 
         if (isPlaying) {
           startVisualizer();
@@ -266,7 +281,7 @@ document.addEventListener("DOMContentLoaded", () => {
           stopVisualizer();
         }
         break;
-      
+
       case "update-ui-empty":
         songImg.src = "imgs/logo.png";
         controlsSongImg.src = "imgs/logo.png";
@@ -292,7 +307,7 @@ document.addEventListener("DOMContentLoaded", () => {
       case "update-volume":
         volumeSlider.value = message.volume;
         break;
-      
+
       case "update-playlist":
         renderPlaylist(message.playlist);
         break;
@@ -382,8 +397,6 @@ form.addEventListener("submit", async (event) => {
         .map((artist) => artist.trim()),
       music: musicDataURL,
       cover_img: imageDataURL,
-      accent_color:
-        "#" + document.getElementById("new-song-colour").value.replace(/^#/, ""),
     };
 
     chrome.runtime.sendMessage({ action: "add-song", song: newSong });

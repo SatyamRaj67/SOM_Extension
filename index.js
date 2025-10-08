@@ -234,7 +234,21 @@ function updateUI(song) {
   controlsSongImg.src = song.cover_img;
   songTitle.textContent = song.title;
   songArtist.textContent = song.artists.join(", ");
-  document.documentElement.style.setProperty("--accent", song.accent_color);
+
+  Vibrant.from(song.cover_img)
+    .getPalette()
+    .then((palette) => {
+      console.log("Extracted Palette:", palette);
+      const accentColor =
+        (palette.DarkVibrant && palette.DarkVibrant.getHex()) ||
+        (palette.DarkMuted && palette.DarkMuted.getHex()) ||
+        "#333"; // Fallback
+      document.documentElement.style.setProperty("--accent", accentColor);
+    })
+    .catch((err) => {
+      console.error("Failed to extract palette, using fallback", err);
+      document.documentElement.style.setProperty("--accent", "#333");
+    });
 }
 
 function togglePlayPause() {
@@ -373,8 +387,6 @@ form.addEventListener("submit", (event) => {
       .map((artist) => artist.trim()),
     music: URL.createObjectURL(musicFile),
     cover_img: URL.createObjectURL(imageFile),
-    accent_color:
-      "#" + document.getElementById("new-song-colour").value.replace(/^#/, ""),
   };
 
   const newIndex = songs.length;
